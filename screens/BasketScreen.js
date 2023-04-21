@@ -9,15 +9,18 @@ import {
   addToBasket,
   removeFromBasket,
   selectBasketItems,
+  selectBasketItemsTotalPrice,
 } from "../feature/BasketSlice";
 import { urlFor } from "../sanity";
 import Currency from "react-currency-formatter";
 import DishPopUp from "../components/DishPopUp";
+import styles from "../style";
 
 const BasketScreen = () => {
   const navigation = useNavigation();
   const restaurant = useSelector(selectRestaurantInfo);
   const items = useSelector(selectBasketItems);
+  const totalPrice = useSelector(selectBasketItemsTotalPrice);
   const [basketItemsGroup, setBasketItemsGroup] = useState([]);
   const dispatch = useDispatch();
   const [isSelected, setIsSelected] = useState(false);
@@ -38,8 +41,6 @@ const BasketScreen = () => {
     dispatch(removeFromBasket({ id: selectedImageInfo.id }));
   };
 
-  console.log(selectedImageInfo);
-
   useMemo(() => {
     const groupItems = items.reduce((results, item) => {
       (results[item.id] = results[item.id] || []).push(item);
@@ -49,11 +50,9 @@ const BasketScreen = () => {
     setBasketItemsGroup(groupItems);
   }, [items]);
 
-  // console.log(basketItemsGroup);
-
   return (
     <>
-      <View>
+      <View style={styles.AndroidSafeAreaStyle}>
         <View
           style={tw`bg-white p-5 border-b border-[#00CCBB] border-opacity-30 shadow-md`}
         >
@@ -82,26 +81,17 @@ const BasketScreen = () => {
           {Object.entries(basketItemsGroup).map(([key, items]) => (
             <View
               key={key}
-              style={tw`relative flex-row pt-3 pb-3 px-5 bg-white 
+              style={tw`flex-row pt-3 pb-3 px-5 bg-white 
             items-center gap-3 ${
               key === Object.keys(basketItemsGroup).pop()
                 ? `border-b-0`
                 : `border-b border-gray-200`
             }`}
             >
-              {/* Items Number */}
-              {items.length > 1 && (
-                <Text
-                  style={tw`absolute top-1.5 left-3 z-50 px-1.5 py-1 bg-[#00CCBB] 
-              text-white text-xs font-bold rounded-full`}
-                >
-                  {items.length}x
-                </Text>
-              )}
               {/* Picture & Dish Info */}
-              <View style={tw`flex-row flex-1 items-center gap-3`}>
-                {/* Dish Picture */}
+              <View style={tw` flex-row flex-1 items-center gap-3`}>
                 <TouchableOpacity
+                  style={tw`relative`}
                   onPress={() => {
                     setIsSelected(true);
                     setSelectedImageInfo({
@@ -113,13 +103,24 @@ const BasketScreen = () => {
                     });
                   }}
                 >
+                  {/* Items Number */}
+                  {items.length > 1 && (
+                    <Text
+                      style={tw`absolute top-[-1] left-[-3] z-50 px-1.5 py-1 bg-[#00CCBB] 
+                    text-white text-xs font-bold rounded-full`}
+                    >
+                      {items.length}x
+                    </Text>
+                  )}
+                  {/* Dish Picture */}
                   <Image
-                    style={tw`w-15 h-15 rounded-full`}
+                    style={tw`w-14 h-14 rounded-full`}
                     source={{
                       uri: urlFor(items[0]?.image).url(),
                     }}
                   />
                 </TouchableOpacity>
+
                 {/* Dish Info */}
                 <View style={tw`w-2/3 gap-1`}>
                   <Text>{items[0]?.name}</Text>
@@ -169,6 +170,31 @@ const BasketScreen = () => {
             </View>
           ))}
         </ScrollView>
+        <View style={tw`bottom-0 bg-white px-4 pt-2 mt-5 shadow-md`}>
+          <View style={tw`flex-row justify-between py-1.5`}>
+            <Text style={tw`text-gray-400`}>Subtotal</Text>
+            <Text style={tw`text-gray-400`}>
+              <Currency quantity={totalPrice} currency="TWD" />
+            </Text>
+          </View>
+          <View style={tw`flex-row justify-between py-1.5`}>
+            <Text style={tw`text-gray-400`}>Delivery Fee</Text>
+            <Text style={tw`text-gray-400`}>
+              <Currency quantity={20} currency="TWD" />
+            </Text>
+          </View>
+          <View style={tw`flex-row justify-between pt-1.5 pb-2`}>
+            <Text>Order Total</Text>
+            <Text style={tw`font-extrabold`}>
+              <Currency quantity={totalPrice + 20} currency="TWD" />
+            </Text>
+          </View>
+          <TouchableOpacity style={tw`rounded-lg bg-[#00CCBB] p-3 mt-2 mb-4`}>
+            <Text style={tw`text-center text-white text-lg font-bold`}>
+              Place Order
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
       {isSelected && selectedImageInfo && (
         <DishPopUp
