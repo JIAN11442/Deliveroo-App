@@ -5,7 +5,6 @@ import Currency from "react-currency-formatter";
 import { Image } from "react-native";
 import { urlFor } from "../sanity";
 import DishPopUp from "./DishPopUp";
-import { PlusCircleIcon, MinusCircleIcon } from "react-native-heroicons/solid";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addToBasket,

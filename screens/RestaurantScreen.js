@@ -13,12 +13,14 @@ import {
   ChevronRightIcon,
 } from "react-native-heroicons/solid";
 import DishRow from "../components/DishRow";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectBasketItems } from "../feature/BasketSlice";
 import BasketTotalBar from "../components/BasketTotalBar";
+import { setRestaurant } from "../feature/RestaurantSlice";
 
 const RestaurantScreen = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const items = useSelector(selectBasketItems);
   const {
     params: {
@@ -42,6 +44,23 @@ const RestaurantScreen = () => {
     });
   }, []);
 
+  useEffect(() => {
+    dispatch(
+      setRestaurant({
+        id,
+        imgUrl,
+        title,
+        rating,
+        genre,
+        address,
+        short_description,
+        dishes,
+        long,
+        lat,
+      })
+    );
+  }, []);
+
   return (
     <>
       {items.length === 0 ? null : <BasketTotalBar />}
@@ -56,7 +75,8 @@ const RestaurantScreen = () => {
           />
           <TouchableOpacity
             style={tw`absolute top-14 left-5 p-2 bg-gray-100 rounded-full`}
-            onPress={navigation.goBack}>
+            onPress={navigation.goBack}
+          >
             <ArrowLeftIcon color="#00CCBB" size={20} />
           </TouchableOpacity>
         </View>
@@ -98,7 +118,8 @@ const RestaurantScreen = () => {
         </View>
         {/* Question Box */}
         <TouchableOpacity
-          style={tw`bg-white p-4 border-t border-gray-100 flex-row items-center`}>
+          style={tw`bg-white p-4 border-t border-gray-100 flex-row items-center`}
+        >
           <QuestionMarkCircleIcon color="gray" opacity={0.6} size={22} />
           <Text style={tw`font-bold text-sm pl-2 flex-1`}>
             Have a food allergy?
