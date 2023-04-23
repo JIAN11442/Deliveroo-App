@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useMemo } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { urlFor } from "../sanity";
 import tw from "twrnc";
@@ -14,14 +14,19 @@ import {
 } from "react-native-heroicons/solid";
 import DishRow from "../components/DishRow";
 import { useDispatch, useSelector } from "react-redux";
-import { selectBasketItems } from "../feature/BasketSlice";
+import { clearAllBasketItems, selectBasketItems } from "../feature/BasketSlice";
 import BasketTotalBar from "../components/BasketTotalBar";
-import { setRestaurant } from "../feature/RestaurantSlice";
+import {
+  selectRestaurantInfo,
+  setRestaurant,
+} from "../feature/RestaurantSlice";
 
 const RestaurantScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const items = useSelector(selectBasketItems);
+  const selectedRestaurant = useSelector(selectRestaurantInfo);
+
   const {
     params: {
       id,
@@ -42,23 +47,13 @@ const RestaurantScreen = () => {
       title: `Deliveroo : ${title}`,
       headerShown: false,
     });
+    console.log(selectedRestaurant);
   }, []);
 
   useEffect(() => {
-    dispatch(
-      setRestaurant({
-        id,
-        imgUrl,
-        title,
-        rating,
-        genre,
-        address,
-        short_description,
-        dishes,
-        long,
-        lat,
-      })
-    );
+    if (items.length > 0 && items[0].restaurant_id != selectedRestaurant.id) {
+      dispatch(clearAllBasketItems());
+    }
   }, []);
 
   return (
@@ -75,8 +70,7 @@ const RestaurantScreen = () => {
           />
           <TouchableOpacity
             style={tw`absolute top-14 left-5 p-2 bg-gray-100 rounded-full`}
-            onPress={navigation.goBack}
-          >
+            onPress={navigation.goBack}>
             <ArrowLeftIcon color="#00CCBB" size={20} />
           </TouchableOpacity>
         </View>
@@ -118,8 +112,7 @@ const RestaurantScreen = () => {
         </View>
         {/* Question Box */}
         <TouchableOpacity
-          style={tw`bg-white p-4 border-t border-gray-100 flex-row items-center`}
-        >
+          style={tw`bg-white p-4 border-t border-gray-100 flex-row items-center`}>
           <QuestionMarkCircleIcon color="gray" opacity={0.6} size={22} />
           <Text style={tw`font-bold text-sm pl-2 flex-1`}>
             Have a food allergy?
@@ -134,7 +127,8 @@ const RestaurantScreen = () => {
         {dishes?.map((dish) => (
           <DishRow
             key={dish._id}
-            id={dish._id}
+            restaurant_id={selectedRestaurant.id}
+            dish_id={dish._id}
             name={dish.name}
             description={dish.short_description}
             price={dish.price}

@@ -23,6 +23,7 @@ export default function App() {
             component={BasketScreen}
             options={{ presentation: "modal", headerShown: false }}
           />
+          {/* <Stack.Screen name="Loading" component={LoadingScreen} /> */}
         </Stack.Navigator>
       </Provider>
     </NavigationContainer>

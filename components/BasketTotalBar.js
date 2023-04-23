@@ -2,12 +2,14 @@ import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import tw from "twrnc";
 import Currency from "react-currency-formatter";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
+  clearAllBasketItems,
   selectBasketItems,
   selectBasketItemsTotalPrice,
 } from "../feature/BasketSlice";
 import { useNavigation } from "@react-navigation/native";
+import { selectRestaurantInfo } from "../feature/RestaurantSlice";
 
 const BasketTotalBar = () => {
   const totalPrice = useSelector(selectBasketItemsTotalPrice);

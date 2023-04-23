@@ -28,7 +28,7 @@ const BasketScreen = () => {
   const addItemToBasket = () => {
     dispatch(
       addToBasket({
-        id: selectedImageInfo.id,
+        dish_id: selectedImageInfo.id,
         name: selectedImageInfo.name,
         description: selectedImageInfo.description,
         price: selectedImageInfo.price,
@@ -38,12 +38,12 @@ const BasketScreen = () => {
   };
   const removeItemFromBasket = () => {
     if (!items.length) return;
-    dispatch(removeFromBasket({ id: selectedImageInfo.id }));
+    dispatch(removeFromBasket({ dish_id: selectedImageInfo.id }));
   };
 
   useMemo(() => {
     const groupItems = items.reduce((results, item) => {
-      (results[item.id] = results[item.id] || []).push(item);
+      (results[item.dish_id] = results[item.dish_id] || []).push(item);
       return results;
     }, {});
 
@@ -54,14 +54,12 @@ const BasketScreen = () => {
     <>
       <View style={styles.AndroidSafeAreaStyle}>
         <View
-          style={tw`bg-white p-5 border-b border-[#00CCBB] border-opacity-30 shadow-md`}
-        >
+          style={tw`bg-white p-5 border-b border-[#00CCBB] border-opacity-30 shadow-md`}>
           <Text style={tw`font-bold text-lg text-center`}>Basket</Text>
           <Text style={tw`text-gray-400 text-center`}>{restaurant.title}</Text>
           <TouchableOpacity
             onPress={navigation.goBack}
-            style={tw`absolute top-5 right-4`}
-          >
+            style={tw`absolute top-5 right-4`}>
             <XCircleIcon size={45} color="#00CCBB" />
           </TouchableOpacity>
         </View>
@@ -86,8 +84,7 @@ const BasketScreen = () => {
               key === Object.keys(basketItemsGroup).pop()
                 ? `border-b-0`
                 : `border-b border-gray-200`
-            }`}
-            >
+            }`}>
               {/* Picture & Dish Info */}
               <View style={tw` flex-row flex-1 items-center gap-3`}>
                 <TouchableOpacity
@@ -101,14 +98,12 @@ const BasketScreen = () => {
                       price: items[0]?.price,
                       image: items[0]?.image,
                     });
-                  }}
-                >
+                  }}>
                   {/* Items Number */}
                   {items.length > 1 && (
                     <Text
                       style={tw`absolute top-[-1] left-[-3] z-50 px-1.5 py-1 bg-[#00CCBB] 
-                    text-white text-xs font-bold rounded-full`}
-                    >
+                    text-white text-xs font-bold rounded-full`}>
                       {items.length}x
                     </Text>
                   )}
@@ -147,22 +142,20 @@ const BasketScreen = () => {
                     onPress={() => {
                       dispatch(
                         addToBasket({
-                          id: key,
+                          dish_id: key,
                           name: items[0]?.name,
                           description: items[0]?.description,
                           price: items[0]?.price,
                           image: items[0]?.image,
                         })
                       );
-                    }}
-                  >
+                    }}>
                     <Text style={tw`text-[#00CCBB] text-sm`}>Add</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => {
-                      dispatch(removeFromBasket({ id: key }));
-                    }}
-                  >
+                      dispatch(removeFromBasket({ dish_id: key }));
+                    }}>
                     <Text style={tw`text-[#00CCBB] text-sm`}>Remove</Text>
                   </TouchableOpacity>
                 </View>
@@ -204,7 +197,7 @@ const BasketScreen = () => {
           selected_price={selectedImageInfo.price}
           selected_image={selectedImageInfo.image}
           setLongSelected={setIsSelected}
-          items={items.filter((item) => item.id === selectedImageInfo.id)}
+          items={items.filter((item) => item.dish_id === selectedImageInfo.id)}
           addItemToBasket={addItemToBasket}
           removeItemFromBasket={removeItemFromBasket}
         />

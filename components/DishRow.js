@@ -12,25 +12,35 @@ import {
   selectBasketItemsWithId,
 } from "../feature/BasketSlice";
 import MinusPlusButton from "./MinusPlusButton";
+import { selectRestaurantInfo } from "../feature/RestaurantSlice";
 
-const DishRow = ({ id, name, description, price, image }) => {
+const DishRow = ({
+  restaurant_id,
+  dish_id,
+  name,
+  description,
+  price,
+  image,
+}) => {
   const [longSelected, setLongSelected] = useState(false);
   const [shortSelected, setShortSelected] = useState(false);
   const [selectedDish, setSelectedDish] = useState([]);
   const longPress = () => {
     setLongSelected(true);
-    setSelectedDish({ id, name, description, price, image });
+    setSelectedDish({ dish_id, name, description, price, image });
   };
 
   // Redux
   const dispatch = useDispatch();
-  const items = useSelector((state) => selectBasketItemsWithId(state, id));
+  const items = useSelector((state) => selectBasketItemsWithId(state, dish_id));
   const addItemToBasket = () => {
-    dispatch(addToBasket({ id, name, description, price, image }));
+    dispatch(
+      addToBasket({ restaurant_id, dish_id, name, description, price, image })
+    );
   };
   const removeItemFromBasket = () => {
     if (!items.length) return;
-    dispatch(removeFromBasket({ id }));
+    dispatch(removeFromBasket({ dish_id }));
   };
 
   return (
@@ -43,8 +53,7 @@ const DishRow = ({ id, name, description, price, image }) => {
         }}
         style={tw`p-4 bg-white border-b border-gray-200 rounded ${
           shortSelected ? "border-b-0" : ""
-        }`}
-      >
+        }`}>
         <View style={tw`flex-row`}>
           <View style={tw`flex-1 mr-10`}>
             <Text style={tw`text-base mb-1`}>{name}</Text>
@@ -64,7 +73,7 @@ const DishRow = ({ id, name, description, price, image }) => {
         </View>
         {longSelected && selectedDish && (
           <DishPopUp
-            selected_id={selectedDish.id}
+            selected_id={selectedDish.dish_id}
             selected_name={selectedDish.name}
             selected_description={selectedDish.description}
             selected_price={selectedDish.price}

@@ -1,18 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  restaurant: {
-    id: null,
-    imgUrl: null,
-    title: null,
-    rating: null,
-    genre: null,
-    address: null,
-    short_description: null,
-    dishes: null,
-    long: null,
-    lat: null,
-  },
+  restaurant: [],
 };
 
 export const restaurantSlice = createSlice({
@@ -21,6 +10,7 @@ export const restaurantSlice = createSlice({
   reducers: {
     setRestaurant: (state, action) => {
       state.restaurant = action.payload;
+      // console.log(state.restaurant);
     },
   },
 });

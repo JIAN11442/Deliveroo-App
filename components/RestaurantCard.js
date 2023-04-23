@@ -5,6 +5,9 @@ import { StarIcon } from "react-native-heroicons/solid";
 import { MapPinIcon } from "react-native-heroicons/outline";
 import { urlFor } from "../sanity";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { setRestaurant } from "../feature/RestaurantSlice";
+import { selectBasketItems } from "../feature/BasketSlice";
 
 const RestaurantCard = ({
   id,
@@ -19,6 +22,7 @@ const RestaurantCard = ({
   lat,
 }) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   return (
     <TouchableOpacity
@@ -35,6 +39,20 @@ const RestaurantCard = ({
           long,
           lat,
         });
+        dispatch(
+          setRestaurant({
+            id,
+            imgUrl,
+            title,
+            rating,
+            genre,
+            address,
+            short_description,
+            dishes,
+            long,
+            lat,
+          })
+        );
       }}
       style={tw`mr-3 bg-white shadow w-64 mb-0.5`}>
       <Image

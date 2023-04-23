@@ -22,6 +22,7 @@ import Categories from "../components/Categories";
 import FeaturedRow from "../components/FeaturedRow";
 import sanityClient from "../sanity";
 import styles from "../style";
+import LoadingScreen from "./LoadingScreen";
 // import "react-native-url-polyfill/auto";
 
 const HomeScreen = () => {
