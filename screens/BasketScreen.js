@@ -54,12 +54,14 @@ const BasketScreen = () => {
     <>
       <View style={styles.AndroidSafeAreaStyle}>
         <View
-          style={tw`bg-white p-5 border-b border-[#00CCBB] border-opacity-30 shadow-md`}>
+          style={tw`bg-white p-5 border-b border-[#00CCBB] border-opacity-30 shadow-md`}
+        >
           <Text style={tw`font-bold text-lg text-center`}>Basket</Text>
           <Text style={tw`text-gray-400 text-center`}>{restaurant.title}</Text>
           <TouchableOpacity
             onPress={navigation.goBack}
-            style={tw`absolute top-5 right-4`}>
+            style={tw`absolute top-5 right-4`}
+          >
             <XCircleIcon size={45} color="#00CCBB" />
           </TouchableOpacity>
         </View>
@@ -84,7 +86,8 @@ const BasketScreen = () => {
               key === Object.keys(basketItemsGroup).pop()
                 ? `border-b-0`
                 : `border-b border-gray-200`
-            }`}>
+            }`}
+            >
               {/* Picture & Dish Info */}
               <View style={tw` flex-row flex-1 items-center gap-3`}>
                 <TouchableOpacity
@@ -98,12 +101,14 @@ const BasketScreen = () => {
                       price: items[0]?.price,
                       image: items[0]?.image,
                     });
-                  }}>
+                  }}
+                >
                   {/* Items Number */}
                   {items.length > 1 && (
                     <Text
                       style={tw`absolute top-[-1] left-[-3] z-50 px-1.5 py-1 bg-[#00CCBB] 
-                    text-white text-xs font-bold rounded-full`}>
+                    text-white text-xs font-bold rounded-full`}
+                    >
                       {items.length}x
                     </Text>
                   )}
@@ -149,13 +154,15 @@ const BasketScreen = () => {
                           image: items[0]?.image,
                         })
                       );
-                    }}>
+                    }}
+                  >
                     <Text style={tw`text-[#00CCBB] text-sm`}>Add</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => {
                       dispatch(removeFromBasket({ dish_id: key }));
-                    }}>
+                    }}
+                  >
                     <Text style={tw`text-[#00CCBB] text-sm`}>Remove</Text>
                   </TouchableOpacity>
                 </View>
@@ -182,7 +189,10 @@ const BasketScreen = () => {
               <Currency quantity={totalPrice + 20} currency="TWD" />
             </Text>
           </View>
-          <TouchableOpacity style={tw`rounded-lg bg-[#00CCBB] p-3 mt-2 mb-4`}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Loading")}
+            style={tw`rounded-lg bg-[#00CCBB] p-3 mt-2 mb-4`}
+          >
             <Text style={tw`text-center text-white text-lg font-bold`}>
               Place Order
             </Text>

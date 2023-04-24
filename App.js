@@ -7,6 +7,8 @@ import RestaurantScreen from "./screens/RestaurantScreen";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import BasketScreen from "./screens/BasketScreen";
+import LoadingScreen from "./screens/LoadingScreen";
+import DeliveryScreen from "./screens/DeliveryScreen";
 // import "react-native-url-polyfill/auto";
 
 export default function App() {
@@ -23,7 +25,16 @@ export default function App() {
             component={BasketScreen}
             options={{ presentation: "modal", headerShown: false }}
           />
-          {/* <Stack.Screen name="Loading" component={LoadingScreen} /> */}
+          <Stack.Screen
+            name="Loading"
+            component={LoadingScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Delivery"
+            component={DeliveryScreen}
+            options={{ headerShown: false }}
+          />
         </Stack.Navigator>
       </Provider>
     </NavigationContainer>
