@@ -23,7 +23,6 @@ import FeaturedRow from "../components/FeaturedRow";
 import sanityClient from "../sanity";
 import styles from "../style";
 import LoadingScreen from "./LoadingScreen";
-// import "react-native-url-polyfill/auto";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -86,7 +85,8 @@ const HomeScreen = () => {
       <ScrollView
         contentContainerStyle={{
           paddingBottom: 10,
-        }}>
+        }}
+      >
         {/* Categories */}
         <Categories />
         {/* FeaturedRow */}

@@ -4,7 +4,8 @@ import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
 import { useLayoutEffect } from "react";
 import * as Animatable from "react-native-animatable";
-import CircularProgress from "@mui/material/CircularProgress";
+// import { CircularProgress } from "@mui/material/CircularProgress";
+import { ActivityIndicator } from "@react-native-material/core";
 
 const LoadingScreen = () => {
   const navigation = useNavigation();
@@ -32,7 +33,7 @@ const LoadingScreen = () => {
       </Animatable.Text>
 
       {/* Progress Circular */}
-      <CircularProgress size={60} thickness={1} style={{ color: "white" }} />
+      <ActivityIndicator size={60} />
     </View>
   );
 };

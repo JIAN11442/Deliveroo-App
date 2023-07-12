@@ -9,7 +9,9 @@ import { store } from "./store";
 import BasketScreen from "./screens/BasketScreen";
 import LoadingScreen from "./screens/LoadingScreen";
 import DeliveryScreen from "./screens/DeliveryScreen";
-// import "react-native-url-polyfill/auto";
+if (Platform.OS === "android") {
+  require("react-native-url-polyfill/auto");
+}
 
 export default function App() {
   const Stack = createNativeStackNavigator();
