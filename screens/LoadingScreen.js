@@ -33,7 +33,7 @@ const LoadingScreen = () => {
       </Animatable.Text>
 
       {/* Progress Circular */}
-      <ActivityIndicator size={60} />
+      <ActivityIndicator size={60} color="white" />
     </View>
   );
 };

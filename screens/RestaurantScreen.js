@@ -47,7 +47,7 @@ const RestaurantScreen = () => {
       title: `Deliveroo : ${title}`,
       headerShown: false,
     });
-    console.log(selectedRestaurant);
+    // console.log(selectedRestaurant);
   }, []);
 
   useEffect(() => {
@@ -70,7 +70,8 @@ const RestaurantScreen = () => {
           />
           <TouchableOpacity
             style={tw`absolute top-14 left-5 p-2 bg-gray-100 rounded-full`}
-            onPress={navigation.goBack}>
+            onPress={navigation.goBack}
+          >
             <ArrowLeftIcon color="#00CCBB" size={20} />
           </TouchableOpacity>
         </View>
@@ -112,7 +113,8 @@ const RestaurantScreen = () => {
         </View>
         {/* Question Box */}
         <TouchableOpacity
-          style={tw`bg-white p-4 border-t border-gray-100 flex-row items-center`}>
+          style={tw`bg-white p-4 border-t border-gray-100 flex-row items-center`}
+        >
           <QuestionMarkCircleIcon color="gray" opacity={0.6} size={22} />
           <Text style={tw`font-bold text-sm pl-2 flex-1`}>
             Have a food allergy?
